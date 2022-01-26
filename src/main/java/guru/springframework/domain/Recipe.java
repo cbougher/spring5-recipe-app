@@ -1,8 +1,7 @@
 package guru.springframework.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +11,9 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"categories", "notes", "ingredients"})
 @ToString(exclude = {"categories", "notes", "ingredients"})
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Recipe {
 
     @Id
