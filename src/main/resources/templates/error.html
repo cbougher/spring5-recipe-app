@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/*@thymesVar id="exception" type="guru.springframework.exceptions.RecipeNotFoundException"*/-->
+<h1>Something went wrong! </h1>
+<h2>Our Engineers are on it</h2>
+<p th:text="${exception.message}"></p>
+<a href="/">Go Home</a>
+</body>

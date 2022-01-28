@@ -15,4 +15,9 @@ public class RecipeServiceImpl implements RecipeService {
     public Iterable<Recipe> getAll(){
         return recipeRepository.findAll();
     }
+
+    @Override
+    public Recipe getById(Long id) {
+        return recipeRepository.findById(id).orElse(null);
+    }
 }

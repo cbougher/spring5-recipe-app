@@ -68,34 +68,34 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         perfectGuacamole.setCookTime(0);
         perfectGuacamole.setNotes(pgNotes);
         perfectGuacamole.setServings(3);
-        perfectGuacamole.setSource("www.simplyrecipes.com");
+        perfectGuacamole.setSource("https://www.simplyrecipes.com");
         perfectGuacamole.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
         perfectGuacamole.setDirections(
                 "Cut the avocados in half. Remove the pit. Score the inside of " +
                 "the avocado with a blunt knife and scoop out the flesh with a spoon. " +
                 "(See How to Cut and Peel an Avocado.) Place in a bowl." +
-                "\n" +
+                "<br />" +
                 "Using a fork, roughly mash the avocado. (Don't overdo it! " +
                 "The guacamole should be a little chunky.)" +
-                "\n" +
+                "<br />" +
                 "Sprinkle with salt and lime (or lemon) juice. The acid in the lime " +
                 "juice will provide some balance to the richness of the avocado and will " +
-                "help delay the avocados from turning brown.\n" +
-                "\n" +
+                "help delay the avocados from turning brown." +
+                "<br />" +
                 "Add the chopped onion, cilantro, black pepper, and chilis. Chili peppers " +
                 "vary individually in their spiciness. So, start with a half of one chili " +
                 "pepper and add more to the guacamole to your desired degree of heat." +
-                "\n" +
+                "<br />" +
                 "Remember that much of this is done to taste because of the variability " +
                 "in the fresh ingredients. Start with this recipe and adjust to your taste." +
-                "\n" +
+                "<br />" +
                 "If making a few hours ahead, place plastic wrap on the surface of the " +
                 "guacamole and press down to cover it to prevent air reaching it. " +
                 "(The oxygen in the air causes oxidation which will turn the guacamole brown.)" +
-                "\n" +
+                "<br />" +
                 "Garnish with slices of red radish or jigama strips. Serve with your " +
                 "choice of store-bought tortilla chips or make your own homemade tortilla chips." +
-                "\n" +
+                "<br /" +
                 "Refrigerate leftover guacamole up to 3 days."
         );
         perfectGuacamole.addCategory(categoryOptionalAmerican.get());
@@ -201,26 +201,26 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         spicyGrilledChickenTacos.setCookTime(15);
         spicyGrilledChickenTacos.setNotes(tacoNotes);
         spicyGrilledChickenTacos.setServings(6);
-        spicyGrilledChickenTacos.setSource("www.simplyrecipes.com");
+        spicyGrilledChickenTacos.setSource("https://www.simplyrecipes.com");
         spicyGrilledChickenTacos.setUrl("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
 
         spicyGrilledChickenTacos.setDirections(
             "Prepare a gas or charcoal grill for medium-high, direct heat" +
-            "\n" +
+            "<br />" +
             "In a large bowl, stir together the chili powder, oregano, cumin, " +
             "sugar, salt, garlic and orange zest. Stir in the orange juice and " +
             "olive oil to make a loose paste. Add the chicken to the bowl and " +
             "toss to coat all over." +
-            "\n" +
+            "<br />" +
             "Set aside to marinate while the grill heats and you prepare the rest of the toppings." +
-            "\n" +
+            "<br />" +
             "Grill the chicken for 3 to 4 minutes per side, or until a thermometer inserted into " +
             "the thickest part of the meat registers 165F. Transfer to a plate and rest for 5 minutes." +
-            "\n" +
+            "<br />" +
             "Place each tortilla on the grill or on a hot, dry skillet over medium-high heat. "+
             "As soon as you see pockets of the air start to puff up in the tortilla, turn it " +
             "with tongs and heat for a few seconds on the other side." +
-            "\n" +
+            "<br />" +
             "Wrap warmed tortillas in a tea towel to keep them warm until serving." +
             "Slice the chicken into strips. On each tortilla, place a small handful " +
             "of arugula. Top with chicken slices, sliced avocado, radishes, tomatoes, " +
