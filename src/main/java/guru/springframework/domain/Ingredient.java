@@ -1,12 +1,17 @@
 package guru.springframework.domain;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,7 +66,7 @@ public class Ingredient {
     }
 
     // Function to convert decimal to fraction
-    public String decimalToFraction(double number)
+    private String decimalToFraction(double number)
     {
 
         // Fetch integral value of the decimal
@@ -92,5 +97,18 @@ public class Ingredient {
         } else {
             return "";
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Ingredient that = (Ingredient) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

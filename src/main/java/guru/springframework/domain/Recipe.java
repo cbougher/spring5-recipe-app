@@ -51,9 +51,11 @@ public class Recipe {
     private Set<Category> categories;
 
     public void setNotes(Notes notes) {
-        notes.setRecipe(this);
-
         this.notes = notes;
+
+        if (notes != null) {
+            notes.setRecipe(this);
+        }
     }
 
     public Set<Ingredient> getIngredients() {

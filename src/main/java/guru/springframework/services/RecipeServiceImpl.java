@@ -1,5 +1,6 @@
 package guru.springframework.services;
 
+import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,11 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe getById(Long id) {
         return recipeRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
+
+        return recipeCommand;
     }
 }
