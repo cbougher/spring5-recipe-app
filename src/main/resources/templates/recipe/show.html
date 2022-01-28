@@ -36,8 +36,8 @@
                                     <li th:remove="all">cat one</li>
                                     <li th:remove="all">cat two</li>
                                     <li th:remove="all">cat three</li>
-                                    <li  th:each="category : ${recipe.categories}">
-                                        <span th:text="${category.description}">Category</span>
+                                    <li  th:each="category : ${recipe.categories}" th:text="${category.description}">
+                                        Category
                                     </li>
                                 </ul>
                             </div>
@@ -47,7 +47,11 @@
                                 <h7>Prep Time:</h7>
                             </div>
                             <div class="col-md-3">
-                                <p th:text="${recipe.prepTime}">30 min</p>
+                                <div th:switch="${recipe.prepTime}">
+                                    <p th:case="'0'">None</p>
+                                    <p th:case="'1'" th:text="${#strings.append(recipe.prepTime, ' Minute')}">1 Minute</p>
+                                    <p th:case="*" th:text="${#strings.append(recipe.prepTime, ' Minutes')}">999 Minutes</p>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <h7>Difficulty:</h7>
@@ -61,7 +65,11 @@
                                 <h7>Cooktime:</h7>
                             </div>
                             <div class="col-md-3">
-                                <p th:text="${recipe.cookTime}">30 min</p>
+                                <div th:switch="${recipe.cookTime}">
+                                    <p th:case="'0'">None</p>
+                                    <p th:case="'1'" th:text="${#strings.append(recipe.cookTime, ' Minute')}">1 Minute</p>
+                                    <p th:case="*" th:text="${#strings.append(recipe.cookTime, ' Minutes')}">999 Minutes</p>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <h7>Servings:</h7>
@@ -101,8 +109,34 @@
                                     <li class="list-group-item" th:remove="all">1 Teaspoon of chocolate</li>
                                     <li class="list-group-item" th:remove="all">1 Teaspoon of Sugar</li>
                                     <li class="list-group-item" th:each="ingredient : ${recipe.ingredients}">
-                                        <span th:text="@{${ingredient.amount} + ' ' + ${ingredient.unitOfMeasure.description} + ' of ' + ${ingredient.description}}">2 Pounds of flesh</span>
+                                        <span th:if="${ingredient.getWholeAmount() > 0}"
+                                              th:text="${ingredient.getWholeAmount()}"
+                                        >
+                                            2
+                                        </span>
+                                        <div style="display: inline" th:switch="${ingredient.getFractionAmount()}">
+                                            <div style="display: inline" th:case="${''}">
+
+                                            </div>
+                                            <div style="display: inline" th:case="*">
+                                                <span th:if="${ingredient.getWholeAmount() > 0}"
+                                                      th:text="'-' + ${ingredient.getFractionAmount()}"
+                                                >
+                                                    - 1/4
+                                                </span>
+                                                <span th:if="${ingredient.getWholeAmount() == 0}"
+                                                      th:text="${ingredient.getFractionAmount()}"
+                                                >
+                                                    1/4
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <span th:text="${ingredient.unitOfMeasure.description} + ' of ' + ${ingredient.description}">
+                                            &nbspPounds of flesh
+                                        </span>
                                     </li>
+                                    <!--/*@thymesVar id="ingredient" type="guru.springframework.domain.Ingredient"*/-->
                                 </ul>
                             </div>
                         </div>

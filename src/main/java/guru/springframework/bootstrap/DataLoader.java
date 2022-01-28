@@ -58,6 +58,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
             "Be careful handling chilis! If using, it's best to wear food-safe gloves. " +
             "If no gloves are available, wash your hands thoroughly after handling, " +
             "and do not touch your eyes or the area near your eyes for several hours afterwards." +
+            "<br />" +
             "Chilling tomatoes hurts their flavor. " +
             "So, if you want to add chopped tomato to your guacamole, add it just before serving."
         );
