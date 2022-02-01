@@ -1,15 +1,13 @@
 package guru.springframework.controllers;
 
+import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.RecipeNotFoundException;
 import guru.springframework.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +23,8 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
+    @GetMapping
+    @RequestMapping(value = "/show/{id}")
     public String show(Model model, @PathVariable Long id) {
         Recipe recipe = recipeService.getById(id);
 
@@ -36,8 +35,24 @@ public class RecipeController {
         return "recipe/show";
     }
 
-    @ExceptionHandler(RecipeNotFoundException.class)
-    public ModelAndView handleError(HttpServletRequest req, RecipeNotFoundException ex) {
+    @GetMapping
+    @RequestMapping(value = "/new")
+    public String newRecipe(Model model) {
+        model.addAttribute("recipe", new RecipeCommand());
+
+        return "recipe/form";
+    }
+
+    @PostMapping(value = "createOrSave")
+    public String createOrSave(@ModelAttribute("recipe") RecipeCommand recipeCommand) {
+        System.out.println(recipeCommand.getId());
+        RecipeCommand savedCommand = recipeService.saveRecipeCommand(recipeCommand);
+
+        return "redirect:/recipe/show/" + savedCommand.getId();
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
         log.error("Request: " + req.getRequestURL() + " raised " + ex);
 
         ModelAndView mav = new ModelAndView();
