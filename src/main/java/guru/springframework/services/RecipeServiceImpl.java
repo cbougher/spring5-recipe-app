@@ -7,6 +7,8 @@ import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
@@ -33,10 +35,23 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
         Recipe detachedRecipe = recipeCommandToRecipe.convert(recipeCommand);
 
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         return recipeToRecipeCommand.convert(savedRecipe);
+    }
+
+    public void deleteById(Long id) {
+        this.recipeRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public RecipeCommand buildCommandFromId(Long id) {
+        Recipe recipe = getById(id);
+
+        return recipeToRecipeCommand.convert(recipe);
     }
 }

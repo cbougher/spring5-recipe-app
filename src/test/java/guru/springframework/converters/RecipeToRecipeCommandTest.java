@@ -29,7 +29,9 @@ class RecipeToRecipeCommandTest {
     void setUp() {
         converter = new RecipeToRecipeCommand(
                 new CategoryToCategoryCommand(),
-                new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand()),
+                new IngredientToIngredientCommand(
+                        new UnitOfMeasureToUnitOfMeasureCommand()
+                ),
                 new NotesToNotesCommand()
         );
     }

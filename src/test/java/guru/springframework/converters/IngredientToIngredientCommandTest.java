@@ -21,8 +21,9 @@ class IngredientToIngredientCommandTest {
 
     @BeforeEach
     void setUp() {
-        UnitOfMeasureToUnitOfMeasureCommand uomConverter = new UnitOfMeasureToUnitOfMeasureCommand();
-        converter = new IngredientToIngredientCommand(uomConverter);
+        converter = new IngredientToIngredientCommand(
+                new UnitOfMeasureToUnitOfMeasureCommand()
+        );
     }
 
     @Test

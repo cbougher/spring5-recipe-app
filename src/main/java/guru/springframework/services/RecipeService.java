@@ -8,4 +8,8 @@ public interface RecipeService {
     Recipe getById(Long id);
 
     RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand);
+
+    void deleteById(Long id);
+
+    RecipeCommand buildCommandFromId(Long id);
 }

@@ -100,6 +100,7 @@
                 <div class="card card-primary border border-primary" style="margin: 20px 0;">
                     <div class="card-header bg-primary text-light">
                         <h7 class="card-title" >Ingredients</h7>
+                        <a th:href="@{/recipe/{recipe_id}/ingredient/(recipe_id=${recipe.id})}" href="#" class="btn btn-secondary float-end btn-sm">View</a>
                     </div>
                     <div class="card-body">
                         <div class="row justify-content-center">
@@ -166,6 +167,8 @@
                         </div>
                     </div>
                 </div>
+                <a th:href="@{/recipe/{id}/edit(id=${recipe.id})}" href="#" class="btn btn-primary">Edit</a>
+                <a th:href="@{/recipe/{id}/delete(id=${recipe.id})}" href="#" class="btn btn-secondary">Delete</a>
             </div>
         </div>
     </div>
