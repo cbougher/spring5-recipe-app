@@ -25,7 +25,7 @@
             <div class="card card-primary border border-primary" style="margin: 20px 0">
                 <div class="card-header bg-primary text-light">
                     <h7 class="card-title">Ingredients</h7>
-                    <a th:href="@{/recipe/{recipe_id}/ingredient/new(recipe_id=${recipe.id})}" href="#" class="btn btn-secondary btn-sm float-end">Add</a>
+                    <a th:href="@{/recipe/{recipe_id}/ingredient/new(recipe_id=${recipe.id})}" href="#" class="btn btn-light btn-sm float-end">Add</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(recipe.ingredients)}">

@@ -6,6 +6,7 @@ import guru.springframework.converters.IngredientToIngredientCommand;
 import guru.springframework.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.Ingredient;
+import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
@@ -37,7 +38,7 @@ class IngredientServiceImplTest {
 
     IngredientServiceImpl ingredientService;
 
-    IngredientServiceImplTest(IngredientToIngredientCommand ingredientToIngredientCommand) {
+    IngredientServiceImplTest() {
         this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
         this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
     }
@@ -68,17 +69,27 @@ class IngredientServiceImplTest {
 
     @Test
     void saveIngredientCommand() {
+        //given
         IngredientCommand command = new IngredientCommand();
         command.setId(3L);
         command.setRecipeId(2L);
-        Ingredient ingredient = new Ingredient();
-        ingredient.setId(3L);
 
-        when(ingredientRepository.save(any())).thenReturn(ingredient);
+        Optional<Recipe> recipeOptional = Optional.of(new Recipe());
 
+        Recipe savedRecipe = new Recipe();
+        savedRecipe.addIngrediant(new Ingredient());
+        savedRecipe.getIngredients().iterator().next().setId(3L);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(recipeRepository.save(any())).thenReturn(savedRecipe);
+
+        //when
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
+        //then
         assertEquals(Long.valueOf(3L), savedCommand.getId());
+        verify(recipeRepository).findById(anyLong());
+        verify(recipeRepository).save(any(Recipe.class));
     }
 
     @Test
