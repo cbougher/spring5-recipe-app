@@ -56,7 +56,7 @@ public class RecipeController {
         System.out.println(recipeCommand.getId());
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(recipeCommand);
 
-        return "redirect:/recipe/show/" + savedCommand.getId();
+        return String.format("redirect:/recipe/%d/show", savedCommand.getId());
     }
 
     @GetMapping(value = "/{id}/delete")
