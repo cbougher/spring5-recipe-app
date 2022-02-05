@@ -1,6 +1,7 @@
 package guru.springframework.controllers;
 
 import guru.springframework.commands.RecipeCommand;
+import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.RecipeNotFoundException;
 import guru.springframework.services.RecipeService;
@@ -18,13 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
 
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService, RecipeToRecipeCommand recipeToRecipeCommand) {
         this.recipeService = recipeService;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
 
-    @GetMapping
-    @RequestMapping(value = "/show/{id}")
+    @GetMapping(value = "/{id}/show")
     public String show(Model model, @PathVariable Long id) {
         Recipe recipe = recipeService.getById(id);
 
@@ -35,10 +37,16 @@ public class RecipeController {
         return "recipe/show";
     }
 
-    @GetMapping
-    @RequestMapping(value = "/new")
+    @GetMapping(value = "/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
+
+        return "recipe/form";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable Long id) {
+        model.addAttribute("recipe", recipeService.buildCommandFromId(id));
 
         return "recipe/form";
     }
@@ -51,15 +59,22 @@ public class RecipeController {
         return "redirect:/recipe/show/" + savedCommand.getId();
     }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
-        log.error("Request: " + req.getRequestURL() + " raised " + ex);
+    @GetMapping(value = "/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        recipeService.deleteById(id);
 
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("exception", ex);
-        mav.addObject("url", req.getRequestURL());
-        mav.setViewName("error");
-
-        return mav;
+        return "redirect:/";
     }
+
+//    @ExceptionHandler(Exception.class)
+//    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+//        log.error("Request: " + req.getRequestURL() + " raised " + ex);
+//
+//        ModelAndView mav = new ModelAndView();
+//        mav.addObject("exception", ex);
+//        mav.addObject("url", req.getRequestURL());
+//        mav.setViewName("error");
+//
+//        return mav;
+//    }
 }
