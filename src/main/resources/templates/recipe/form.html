@@ -37,13 +37,15 @@
                         </div>
                         <div class="card-body">
                             <div class="row justify-content-center">
-                                <div class="col-md-12 form-group">
-                                    <label for="description">Recipe Description:</label>
-                                    <input id="description" type="text" class="form-control" th:field="*{description}"/>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input id="description" type="text" class="form-control" th:field="*{description}" placeholder="description"/>
+                                        <label for="description">Recipe Description</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3">
                                     <label>Categories:</label>
                                 </div>
                                 <div class="col-md-9 form-group">
@@ -63,38 +65,50 @@
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-md-4 form-group">
-                                    <label for="prepTime">Prep Time:</label>
-                                    <input id="prepTime" type="text" class="form-control" th:field="*{prepTime}"/>
+                                    <div class="form-floating">
+                                        <input id="prepTime" type="text" class="form-control" placeholder="time" th:field="*{prepTime}"/>
+                                        <label for="prepTime">Prep Time</label>
+                                    </div>
                                 </div>
                                 <div class="col-md-4 form-group">
-                                    <label for="cookTime">Cooktime:</label>
-                                    <input id="cookTime" type="text" class="form-control" th:field="*{cookTime}"/>
+                                    <div class="form-floating">
+                                        <input id="cookTime" type="text" class="form-control" placeholder="time" th:field="*{cookTime}"/>
+                                        <label for="cookTime">Cooktime</label>
+                                    </div>
                                 </div>
                                 <div class="col-md-4 form-group">
-                                    <label for="difficulty">Difficulty:</label>
-                                    <select class="form-control" th:remove="all">
-                                        <option>Easy</option>
-                                        <option>Medium</option>
-                                        <option>Hard</option>
-                                    </select>
-                                    <select class="form-control" id="difficulty" th:field="*{difficulty}">
-                                        <option th:each="difficulty : ${T(guru.springframework.domain.Difficulty).values()}"
-                                                th:value="${difficulty}" th:text="${difficulty.displayValue}"></option>
-                                    </select>
+                                    <div class="form-floating">
+                                        <select class="form-control" th:remove="all">
+                                            <option>Easy</option>
+                                            <option>Medium</option>
+                                            <option>Hard</option>
+                                        </select>
+                                        <select class="form-control" id="difficulty" th:field="*{difficulty}">
+                                            <option th:each="difficulty : ${T(guru.springframework.domain.Difficulty).values()}"
+                                                    th:value="${difficulty}" th:text="${difficulty.displayValue}"></option>
+                                        </select>
+                                        <label for="difficulty">Difficulty:</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-md-4 form-group">
-                                    <label for="servings">Servings:</label>
-                                    <input id="servings" type="text" class="form-control" th:field="*{servings}"/>
+                                   <div class="form-floating">
+                                        <input id="servings" type="text" class="form-control" placeholder="servings" th:field="*{servings}"/>
+                                        <label for="servings">Servings</label>
+                                    </div>
                                 </div>
                                 <div class="col-md-4 form-group">
-                                    <label for="source">Source:</label>
-                                    <input id="source" type="text" class="form-control" th:field="*{source}"/>
+                                    <div class="form-floating">
+                                        <input id="source" type="text" class="form-control" placeholder="source" th:field="*{source}"/>
+                                        <label for="source">Source</label>
+                                    </div>
                                 </div>
                                 <div class="col-md-4 form-group">
-                                    <label for="url">URL:</label>
-                                    <input id="url" type="text" class="form-control" th:field="*{url}"/>
+                                    <div class="form-floating">
+                                        <input id="url" type="text" class="form-control" placeholder="url" th:field="*{url}"/>
+                                        <label for="url">URL</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

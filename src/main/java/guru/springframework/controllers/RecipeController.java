@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,9 +53,14 @@ public class RecipeController {
     }
 
     @PostMapping(value = "createOrSave")
-    public String createOrSave(@ModelAttribute("recipe") RecipeCommand recipeCommand) {
+    public String createOrSave(
+            @ModelAttribute("recipe") RecipeCommand recipeCommand,
+            RedirectAttributes redirectAttributes
+    ) {
         System.out.println(recipeCommand.getId());
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(recipeCommand);
+
+        redirectAttributes.addFlashAttribute("success", "Recipe was saved");
 
         return String.format("redirect:/recipe/%d/show", savedCommand.getId());
     }
