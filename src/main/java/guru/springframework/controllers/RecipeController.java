@@ -3,7 +3,7 @@ package guru.springframework.controllers;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
-import guru.springframework.exceptions.RecipeNotFoundException;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -30,8 +30,6 @@ public class RecipeController {
     @GetMapping(value = "/{id}/show")
     public String show(Model model, @PathVariable Long id) {
         Recipe recipe = recipeService.getById(id);
-
-        if(recipe == null) throw new RecipeNotFoundException("That recipe doesn't exist");
 
         model.addAttribute("recipe", recipe);
 
@@ -69,18 +67,6 @@ public class RecipeController {
     public String delete(@PathVariable Long id) {
         recipeService.deleteById(id);
 
-        return "redirect:/";
+        return "redirect:/index";
     }
-
-//    @ExceptionHandler(Exception.class)
-//    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
-//        log.error("Request: " + req.getRequestURL() + " raised " + ex);
-//
-//        ModelAndView mav = new ModelAndView();
-//        mav.addObject("exception", ex);
-//        mav.addObject("url", req.getRequestURL());
-//        mav.setViewName("error");
-//
-//        return mav;
-//    }
 }

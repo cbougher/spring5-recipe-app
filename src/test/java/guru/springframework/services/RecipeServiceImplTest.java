@@ -3,6 +3,7 @@ package guru.springframework.services;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.*;
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,23 @@ class RecipeServiceImplTest {
     @BeforeEach
     public void setUp() {
         recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
+    }
+
+    @Test
+    public void getByIdNotFound() {
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        Mockito.when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Exception exception = assertThrows(NotFoundException.class, () -> {
+            Recipe foundRecipe = recipeService.getById(1L);
+        });
+
+        String expectedMessage = "Recipe not found";
+        String actualMessage = exception.getMessage();
+
+        assertNotNull(exception);
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
