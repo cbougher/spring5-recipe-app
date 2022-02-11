@@ -60,7 +60,8 @@ class RecipeControllerTest {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
         mockMvc.perform(get("/recipe/1/show"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("recipe/404error"));
     }
 
     @Test
@@ -112,7 +113,7 @@ class RecipeControllerTest {
 
         mockMvc.perform(get("/recipe/1/delete"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(view().name("redirect:/index"));
 
         verify(recipeService).deleteById(anyLong());
     }

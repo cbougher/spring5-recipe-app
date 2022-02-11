@@ -3,12 +3,10 @@ package guru.springframework.controllers;
 import guru.springframework.commands.IngredientCommand;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.commands.UnitOfMeasureCommand;
-import guru.springframework.domain.UnitOfMeasure;
 import guru.springframework.services.IngredientService;
 import guru.springframework.services.RecipeService;
 import guru.springframework.services.UnitOfMeasureService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -80,12 +77,6 @@ class IngredientControllerTest {
     }
 
     @Test
-    @Disabled
-    void delete() {
-
-    }
-
-    @Test
     void update() throws Exception {
         IngredientCommand command = new IngredientCommand();
         command.setId(1L);
@@ -125,7 +116,7 @@ class IngredientControllerTest {
     }
 
     @Test
-    void testDelete() throws Exception {
+    void delete() throws Exception {
 
         mockMvc.perform(get("/recipe/2/ingredient/1/delete")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
