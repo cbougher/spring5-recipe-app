@@ -6,6 +6,7 @@ import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -68,5 +75,25 @@ public class RecipeController {
         recipeService.deleteById(id);
 
         return "redirect:/index";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView recipeNotFound(Exception exception) {
+        // get the stacktrace into a string
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        String stacktrace = sw.toString();
+
+        // setup the view and model
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("recipe/404error");
+        modelAndView.getModel().put("exception", exception);
+        modelAndView.getModel().put("stacktrace", stacktrace);
+
+        log.debug("404 encountered");
+
+        return modelAndView;
     }
 }
