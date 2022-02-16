@@ -5,6 +5,7 @@ import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.RecipeService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -35,13 +35,20 @@ class RecipeControllerTest {
     @InjectMocks
     RecipeController recipeController;
 
+    MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(recipeController)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
+    }
+
     @Test
     void show() throws Exception {
         Recipe recipe = Recipe.builder().id(1L).build();
 
         when(recipeService.getById(anyLong())).thenReturn(recipe);
-
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isOk())
@@ -57,17 +64,20 @@ class RecipeControllerTest {
 
         when(recipeService.getById(anyLong())).thenThrow(NotFoundException.class);
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("recipe/404error"));
     }
 
     @Test
-    void newRecipe() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+    void invalidRecipeId() throws Exception {
+        mockMvc.perform(get("/recipe/one/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("recipe/400error"));
+    }
 
+    @Test
+    void newRecipe() throws Exception {
         mockMvc.perform(get("/recipe/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/form"))
@@ -81,12 +91,11 @@ class RecipeControllerTest {
 
         when(recipeService.saveRecipeCommand(any())).thenReturn(command);
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-
         mockMvc.perform(post("/recipe/createOrSave")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("id", "")
                         .param("description", "some string")
+                        .param("directions", "stir it")
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
@@ -99,8 +108,6 @@ class RecipeControllerTest {
 
         when(recipeService.buildCommandFromId(anyLong())).thenReturn(command);
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-
         mockMvc.perform(get("/recipe/1/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/form"))
@@ -109,12 +116,24 @@ class RecipeControllerTest {
 
     @Test
     void delete() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-
         mockMvc.perform(get("/recipe/1/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/index"));
 
         verify(recipeService).deleteById(anyLong());
+    }
+
+    @Test
+    void newRecipeFormValidationFail() throws Exception {
+        RecipeCommand command = new RecipeCommand();
+        command.setId(1L);
+
+        mockMvc.perform(post("/recipe/createOrSave")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("recipe"))
+                .andExpect(view().name("recipe/form"));
     }
 }

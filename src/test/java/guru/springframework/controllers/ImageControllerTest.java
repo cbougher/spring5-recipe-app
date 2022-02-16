@@ -33,7 +33,9 @@ public class ImageControllerTest {
         MockitoAnnotations.initMocks(this);
 
         controller = new ImageController(imageService, recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -49,8 +51,22 @@ public class ImageControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("recipe"));
 
-        verify(recipeService, times(1)).buildCommandFromId(anyLong());
+        verify(recipeService).buildCommandFromId(anyLong());
 
+    }
+
+    @Test
+    public void getImageFormBadNumber() throws Exception {
+        //given
+        RecipeCommand command = new RecipeCommand();
+        command.setId(1L);
+
+        when(recipeService.buildCommandFromId(anyLong())).thenReturn(command);
+
+        //when
+        mockMvc.perform(get("/recipe/ABCD/image"))
+                .andExpect(status().isBadRequest())
+                .andExpect(model().attributeExists("exception"));
     }
 
     @Test
@@ -63,6 +79,6 @@ public class ImageControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location", "/recipe/1/show"));
 
-        verify(imageService, times(1)).saveImageFile(anyLong(), any());
+        verify(imageService).saveImageFile(anyLong(), any());
     }
 }

@@ -1,167 +1,152 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
     <title>Recipe Form</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-          crossorigin="anonymous"
-          th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}">
-
-    <script
-            src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-            crossorigin="anonymous"
-            th:src="@{/webjars/jquery/3.6.0/jquery.min.js}">
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"
-            th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.min.js}">
-    </script>
+    <div th:replace="generalfragments :: headerFiles"></div>
 </head>
 <body>
+
 <!--/*@thymesVar id="recipe" type="guru.springframework.domain.Recipe"*/-->
 <div class="container-fluid" style="margin-top: 20px">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-md-offset-3">
-            <form  th:object="${recipe}" th:action="@{/recipe/createOrSave/}"  method="post">
-                <input type="hidden" th:field="*{id}"/>
-                <div class="panel-group">
-                    <div class="card card-primary border border-primary" style="margin: 20px 0">
-                        <div class="card-header bg-primary text-light">
-                            <h5 class="card-title">Edit Recipe Information</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row justify-content-center">
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input id="description" type="text" class="form-control" th:field="*{description}" placeholder="description"/>
-                                        <label for="description">Recipe Description</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row justify-content-center">
-                                <div class="col-md-3">
-                                    <label>Categories:</label>
-                                </div>
-                                <div class="col-md-9 form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="checkbox" value=""/>
-                                            Cat 1
-                                        </label>
-                                    </div>
-                                    <div class="radio" th:remove="all">
-                                        <label>
-                                            <input type="checkbox" value=""/>
-                                            Cat 2
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row justify-content-center">
-                                <div class="col-md-4 form-group">
-                                    <div class="form-floating">
-                                        <input id="prepTime" type="text" class="form-control" placeholder="time" th:field="*{prepTime}"/>
-                                        <label for="prepTime">Prep Time</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <div class="form-floating">
-                                        <input id="cookTime" type="text" class="form-control" placeholder="time" th:field="*{cookTime}"/>
-                                        <label for="cookTime">Cooktime</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <div class="form-floating">
-                                        <select class="form-control" th:remove="all">
-                                            <option>Easy</option>
-                                            <option>Medium</option>
-                                            <option>Hard</option>
-                                        </select>
-                                        <select class="form-control" id="difficulty" th:field="*{difficulty}">
-                                            <option th:each="difficulty : ${T(guru.springframework.domain.Difficulty).values()}"
-                                                    th:value="${difficulty}" th:text="${difficulty.displayValue}"></option>
-                                        </select>
-                                        <label for="difficulty">Difficulty:</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row justify-content-center">
-                                <div class="col-md-4 form-group">
-                                   <div class="form-floating">
-                                        <input id="servings" type="text" class="form-control" placeholder="servings" th:field="*{servings}"/>
-                                        <label for="servings">Servings</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <div class="form-floating">
-                                        <input id="source" type="text" class="form-control" placeholder="source" th:field="*{source}"/>
-                                        <label for="source">Source</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <div class="form-floating">
-                                        <input id="url" type="text" class="form-control" placeholder="url" th:field="*{url}"/>
-                                        <label for="url">URL</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-primary border border-primary" style="margin: 20px 0">
-                        <div class="card-header bg-primary text-light">
-                            <h5 class="card-title">Ingredients</h5>
-                            <a href="#" class="btn btn-secondary btn-sm float-end">Edit</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="row justify-content-center">
-                                <div class="col-md-12">
-                                    <ul>
-                                        <li th:remove="all">1 Cup of milk</li>
-                                        <li th:remove="all">1 Teaspoon of chocolate</li>
-                                        <li th:each="ingredient : ${recipe.ingredients}"
-                                            th:text="${(ingredient.getAmount() +
-                                        ' ' + ingredient.unitOfMeasure.getDescription() +
-                                        ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-primary border border-primary" style="margin: 20px 0">
-                        <div class="card-header bg-primary text-light">
-                            <h5 class="card-title">Directions</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row justify-content-center">
-                                <div class="col-md-12 form-group">
-                                    <textarea class="form-control" rows="3" th:field="*{directions}"></textarea></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-primary border border-primary" style="margin: 20px 0">
-                        <div class="card-header bg-primary text-light">
-                            <h5 class="card-title">Notes</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row justify-content-center">
-                                <div class="col-md-12 form-group">
-                                    <textarea class="form-control" rows="3" th:field="*{notes.recipeNotes}"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
+    <form  th:object="${recipe}" th:action="@{/recipe/createOrSave/}"  method="post">
+        <div th:if="${#fields.hasAnyErrors()}" th:class="'alert alert-danger'">
+            <p>Please correct errors below</p>
         </div>
-    </div>
+
+        <input type="hidden" th:field="*{id}"/>
+        <div th:replace="generalfragments :: card(${'Edit Recipe Information'}, ~{::#card_content_1}, ${'w-75'})">
+            <div id="card_content_1">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input id="description" type="text" class="form-control" th:errorclass="is-invalid" th:field="*{description}" th:placeholder="#{recipe.description}"/>
+                            <label th:text="#{recipe.description}" for="description">Recipe Description</label>
+                            <div class="invalid-feedback">
+                                <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <label>Categories:</label>
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <div class="radio">
+                            <label>
+                                <input type="checkbox" value=""/>
+                                Cat 1
+                            </label>
+                        </div>
+                        <div class="radio" th:remove="all">
+                            <label>
+                                <input type="checkbox" value=""/>
+                                Cat 2
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 form-group">
+                        <div class="form-floating">
+                            <input id="prepTime" type="text" class="form-control" th:errorclass="is-invalid" placeholder="time" th:field="*{prepTime}"/>
+                            <label for="prepTime">Prep Time</label>
+                            <div class="invalid-feedback">
+                                <p th:if="${#fields.hasErrors('prepTime')}" th:errors="*{prepTime}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <div class="form-floating">
+                            <input id="cookTime" type="text" class="form-control" th:errorclass="is-invalid" placeholder="time" th:field="*{cookTime}"/>
+                            <label for="cookTime">Cooktime</label>
+                            <div class="invalid-feedback">
+                                <p th:if="${#fields.hasErrors('cookTime')}" th:errors="*{cookTime}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <div class="form-floating">
+                            <select class="form-control" th:remove="all">
+                                <option>Easy</option>
+                                <option>Medium</option>
+                                <option>Hard</option>
+                            </select>
+                            <select class="form-control" id="difficulty" th:field="*{difficulty}">
+                                <option th:each="difficulty : ${T(guru.springframework.domain.Difficulty).values()}"
+                                        th:value="${difficulty}" th:text="${difficulty.displayValue}"></option>
+                            </select>
+                            <label for="difficulty">Difficulty:</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 form-group">
+                       <div class="form-floating">
+                            <input id="servings" type="text" class="form-control" th:errorclass="is-invalid" placeholder="servings" th:field="*{servings}"/>
+                            <label for="servings">Servings</label>
+                           <div class="invalid-feedback">
+                               <p th:if="${#fields.hasErrors('servings')}" th:errors="*{servings}" />
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <div class="form-floating">
+                            <input id="source" type="text" class="form-control" placeholder="source" th:field="*{source}"/>
+                            <label for="source">Source</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <div class="form-floating">
+                            <input id="url" type="text" class="form-control" placeholder="url" th:field="*{url}"/>
+                            <label for="url">URL</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="generalfragments :: card(${'Ingredients'}, ~{::#card_content_2}, ${'w-75'})">
+            <div id="card_content_2">
+                <a href="#" class="btn btn-secondary btn-sm float-end">Edit</a>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <ul>
+                            <li th:remove="all">1 Cup of milk</li>
+                            <li th:remove="all">1 Teaspoon of chocolate</li>
+                            <li th:each="ingredient : ${recipe.ingredients}"
+                                th:text="${(ingredient.getAmount() +
+                            ' ' + ingredient.unitOfMeasure.getDescription() +
+                            ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="generalfragments :: card(${'Directions'}, ~{::#card_content_3}, ${'w-75'})">
+            <div id="card_content_3">
+                <div class="row justify-content-center">
+                    <div class="col-md-12 form-group">
+                        <textarea class="form-control" rows="3" th:field="*{directions}"></textarea></div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="generalfragments :: card(${'Notes'}, ~{::#card_content_4}, ${'w-75'})">
+            <div id="card_content_4">
+                <div class="row justify-content-center">
+                    <div class="col-md-12 form-group">
+                        <textarea class="form-control" rows="3" th:field="*{notes.recipeNotes}"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  class="row justify-content-center">
+            <div class="w-75 mt-4">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

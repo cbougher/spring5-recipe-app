@@ -1,41 +1,17 @@
 <!DOCTYPE html>
-<html th:replace="~{layout :: layout(~{::title}, ~{::section})}" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Recipe not found</title>
-</head>
-<body>
+<html  xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="exception" type="guru.springframework.exceptions.NotFoundException"*/-->
 <!--/*@thymesVar id="stacktrace" type="java.lang.String"*/-->
-<section>
-    <div class="container-fluid" style="margin-top: 20px">
-        <div class="row justify-content-center">
-            <div class="w-50">
-                <div class="card">
-                    <h5 class="card-header bg-primary text-light">This Recipe isn't available</h5>
-                    <div class="card-body">
-                        <p>
-                            The link may be broken, or the recipe may have been removed. Check to see if the link you're trying to open is correct.
-                        </p>
-                        <div class="text-center">
-                        <a class="btn btn-primary mx-auto" href="/" role="button">Go back home</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div th:if="${#arrays.contains(@environment.getActiveProfiles(),'dev')}">
-            <div class="row">
-                <div class="alert alert-secondary mt-4">
-                    <pre>
-                        <code>
-                            <div th:text="${exception.message}">Something bad happened</div>
-                            <div th:text="${stacktrace}">oops</div>
-                        </code>
-                    </pre>
-                </div>
-            </div>
-        </div>
+<head>
+    <title>Recipe not found</title>
+    <div th:replace="responseerrorfragments :: headerFiles"></div>
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 20px">
+    <div th:replace="responseerrorfragments :: errorPanel (${'This Recipe isn''t available'}, ${'The link may be broken, or the recipe may have been removed. Check to see if the link you''re trying to open is correct.'}, ${exception.message})">
     </div>
-</section>
+
+    <div th:replace="responseerrorfragments :: errorDevInfo (${exception.message}, ${stacktrace})"></div>
+</div>
 </body>
 </html>

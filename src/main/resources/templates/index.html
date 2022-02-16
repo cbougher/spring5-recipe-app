@@ -1,52 +1,46 @@
 <!DOCTYPE html>
-<html th:replace="~{layout :: layout(~{::title}, ~{::section})}" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Recipe Home</title>
+    <div th:replace="generalfragments :: headerFiles"></div>
 </head>
 <body>
 <section>
 <div class="container-fluid" style="margin-top: 20px">
-    <div class="row justify-content-center">
-        <div class="w-50">
-            <div class="card">
-                <h5 class="card-header bg-primary text-light">My Recipes Taste Great</h5>
-                <div class="card-body">
-                    <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
-                        <table class="table table-hover">
-                            <thead class="thead-inverse">
-                            <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th colspan="3">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:remove="all">
-                                <td>123</td>
-                                <td>Mom's Apple Pie</td>
-                                <td><a href="#">View</a></td>
-                                <td><a href="#">Edit</a></td>
-                                <td><a href="#">Delete</a></td>
-                            </tr>
-                            <tr th:remove="all">
-                                <td>456</td>
-                                <td>Gooey Brownies</td>
-                                <td><a href="#">View</a></td>
-                                <td><a href="#">Edit</a></td>
-                                <td><a href="#">Delete</a></td>
-                            </tr>
-                            <tr th:each="recipe : ${recipes}">
-                                <td th:text="${recipe.id}">789</td>
-                                <td th:text="${recipe.description}">Chicken and Dumplings</td>
-                                <td><a href="#" th:href="@{'recipe/' + ${recipe.id} + '/show'}">View</a></td>
-                                <td><a href="#" th:href="@{'recipe/' + ${recipe.id} + '/edit'}">Edit</a></td>
-                                <td><a href="#" th:href="@{'recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div th:replace="generalfragments :: card(${'My Recipes Taste Great'}, ~{::#card_content}, ${'w-50'})">
+        <div id="card_content" class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
+            <table class="table table-hover">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th colspan="3">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:remove="all">
+                    <td>123</td>
+                    <td>Mom's Apple Pie</td>
+                    <td><a href="#">View</a></td>
+                    <td><a href="#">Edit</a></td>
+                    <td><a href="#">Delete</a></td>
+                </tr>
+                <tr th:remove="all">
+                    <td>456</td>
+                    <td>Gooey Brownies</td>
+                    <td><a href="#">View</a></td>
+                    <td><a href="#">Edit</a></td>
+                    <td><a href="#">Delete</a></td>
+                </tr>
+                <tr th:each="recipe : ${recipes}">
+                    <td th:text="${recipe.id}">789</td>
+                    <td th:text="${recipe.description}">Chicken and Dumplings</td>
+                    <td><a href="#" th:href="@{'recipe/' + ${recipe.id} + '/show'}">View</a></td>
+                    <td><a href="#" th:href="@{'recipe/' + ${recipe.id} + '/edit'}">Edit</a></td>
+                    <td><a href="#" th:href="@{'recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

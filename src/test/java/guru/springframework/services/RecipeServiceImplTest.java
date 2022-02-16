@@ -66,7 +66,7 @@ class RecipeServiceImplTest {
             Recipe foundRecipe = recipeService.getById(1L);
         });
 
-        String expectedMessage = "Recipe not found";
+        String expectedMessage = "Recipe not found, recipe id: 1";
         String actualMessage = exception.getMessage();
 
         assertNotNull(exception);

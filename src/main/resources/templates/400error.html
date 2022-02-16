@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="exception" type="guru.springframework.exceptions.NotFoundException"*/-->
+<!--/*@thymesVar id="stacktrace" type="java.lang.String"*/-->
+    <head>
+        <title>Recipe ID Invalid</title>
+        <div th:replace="responseerrorfragments :: headerFiles"></div>
+    </head>
+    <body>
+        <div class="container-fluid" style="margin-top: 20px">
+            <div th:replace="responseerrorfragments :: errorPanel (${'The recipe ID was invalid'}, ${'The recipe id requested was not a valid number.'}, ${exception.message})">
+            </div>
+
+            <div th:replace="responseerrorfragments :: errorDevInfo (${exception.message}, ${stacktrace})"></div>
+        </div>
+    </body>
+</html>
